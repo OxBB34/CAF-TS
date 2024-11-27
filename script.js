@@ -1,6 +1,4 @@
-// Ajout d'un écouteur d'événement au bouton "Envoyer"
 document.getElementById("submit-btn").addEventListener("click", async () => {
-  // Récupération des données du formulaire
   const data = {
     date: document.getElementById("date").value,
     type: document.getElementById("type").value,
@@ -11,29 +9,29 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     femmes: document.getElementById("femmes").value,
   };
 
-  // Vérification que tous les champs obligatoires sont remplis
   if (!data.date || !data.type || !data.hommes || !data.femmes) {
     alert("Veuillez remplir tous les champs obligatoires !");
     return;
   }
 
   try {
-    // Envoi des données au script Google Apps Script
     const response = await fetch(
-    `https://corsproxy.io/?${encodeURIComponent
-      "https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec" 
-       )}`,
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    });
+      "https://script.google.com/macros/s/AKfycbz7SxeVcbD9JpqYx6_rHgRYVIpNtsv_G9AIz_VcPbySkF5ACcxWMcqfzNKtav18yEosmQ/exec",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
-    // Vérification de la réponse brute pour déboguer
-    const textResult = await response.text();
-    console.log("Réponse brute :", textResult);
+    if (!response.ok) {
+      console.error("Erreur HTTP :", response.status, response.statusText);
+      alert("Erreur lors de l'envoi : " + response.statusText);
+      return;
+    }
 
-    // Parsing de la réponse JSON
-    const result = JSON.parse(textResult);
+    const result = await response.json();
+    console.log("Réponse JSON :", result);
 
     if (result.success) {
       alert("Données envoyées avec succès !");
@@ -42,7 +40,7 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
       alert("Erreur du serveur : " + result.error);
     }
   } catch (error) {
-    console.error("Erreur lors de l'envoi :", error);
-    alert("Erreur lors de l'envoi des données. Vérifiez votre connexion et réessayez.");
+    console.error("Erreur réseau :", error);
+    alert("Erreur lors de l'envoi des données. Vérifiez votre connexion.");
   }
 });
