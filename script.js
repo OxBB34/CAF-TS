@@ -38,4 +38,4 @@ try {
   console.error("Erreur lors de l'envoi :", error);
   alert("Erreur lors de l'envoi des données. Vérifiez votre connexion et réessayez.");
 }
-
+});
