@@ -19,7 +19,10 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
 
   try {
     // Envoi des données au script Google Apps Script
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec", {
+    const response = await fetch(
+    `https://corsproxy.io/?${encodeURIComponent
+      "https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec" 
+       )}`,
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
