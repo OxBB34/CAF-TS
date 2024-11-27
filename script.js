@@ -17,25 +17,29 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     return;
   }
 
-try {
-  const response = await fetch("https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    // Envoi des données au script Google Apps Script
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    });
 
-  const textResult = await response.text(); // Récupère la réponse brute pour déboguer
-  console.log("Réponse brute :", textResult);
+    // Vérification de la réponse brute pour déboguer
+    const textResult = await response.text();
+    console.log("Réponse brute :", textResult);
 
-  const result = JSON.parse(textResult); // Essaie de parser la réponse
-  if (result.success) {
-    alert("Données envoyées avec succès !");
-    document.getElementById("form").reset();
-  } else {
-    alert("Erreur du serveur : " + result.error);
+    // Parsing de la réponse JSON
+    const result = JSON.parse(textResult);
+
+    if (result.success) {
+      alert("Données envoyées avec succès !");
+      document.getElementById("form").reset();
+    } else {
+      alert("Erreur du serveur : " + result.error);
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'envoi :", error);
+    alert("Erreur lors de l'envoi des données. Vérifiez votre connexion et réessayez.");
   }
-} catch (error) {
-  console.error("Erreur lors de l'envoi :", error);
-  alert("Erreur lors de l'envoi des données. Vérifiez votre connexion et réessayez.");
-}
 });
