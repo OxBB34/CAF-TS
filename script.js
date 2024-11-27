@@ -31,8 +31,6 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     }
 
     const result = await response.json();
-    console.log("Réponse JSON :", result);
-
     if (result.success) {
       alert("Données envoyées avec succès !");
       document.getElementById("form").reset();
