@@ -17,26 +17,25 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     return;
   }
 
-  try {
-    // Envoi des données au script Google Apps Script
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    });
+try {
+  const response = await fetch("https://script.google.com/macros/s/AKfycbzSwJi53KDtGwsKvu3KNQFbvaFXYsxNiN5RRfVv2aP3Fk8B7NNk0Z5RHtRDY7PIvzZGBQ/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
 
-    // Gestion de la réponse du script
-    const result = await response.json();
-    if (result.success) {
-      alert("Données envoyées avec succès !");
-      // Réinitialisation du formulaire
-      document.getElementById("form").reset();
-    } else {
-      alert("Erreur du serveur : " + result.error);
-    }
-  } catch (error) {
-    // Gestion des erreurs réseau
-    console.error("Erreur lors de l'envoi :", error);
-    alert("Erreur lors de l'envoi des données. Vérifiez votre connexion et réessayez.");
+  const textResult = await response.text(); // Récupère la réponse brute pour déboguer
+  console.log("Réponse brute :", textResult);
+
+  const result = JSON.parse(textResult); // Essaie de parser la réponse
+  if (result.success) {
+    alert("Données envoyées avec succès !");
+    document.getElementById("form").reset();
+  } else {
+    alert("Erreur du serveur : " + result.error);
   }
-});
+} catch (error) {
+  console.error("Erreur lors de l'envoi :", error);
+  alert("Erreur lors de l'envoi des données. Vérifiez votre connexion et réessayez.");
+}
+
