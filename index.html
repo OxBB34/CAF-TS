@@ -1,39 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trail Club - Formulaire</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Trail Club Sorties</title>
 </head>
 <body>
-  <div id="login-container">
-    <h2>Connexion</h2>
-    <input type="password" id="password" placeholder="Mot de passe">
-    <button id="login-btn">Se connecter</button>
-  </div>
-
-  <div id="form-container" style="display: none;">
-    <h1>Ajouter une sortie</h1>
-    <form id="form">
-      <label>Date: <input type="date" id="date"></label><br>
-      <label>Type de sortie:
-        <select id="type">
-          <option>Mardi Nature</option>
-          <option>Mardi Piste</option>
-          <option>Jeudi Nature</option>
-          <option>Samedi Cool</option>
-          <option>Dimanche Nature</option>
-        </select>
-      </label><br>
-      <label>Encadrant 1: <input type="text" id="encadrant1"></label><br>
-      <label>Encadrant 2: <input type="text" id="encadrant2"></label><br>
-      <label>Encadrant 3: <input type="text" id="encadrant3"></label><br>
-      <label>Nombre d'hommes: <input type="number" id="hommes"></label><br>
-      <label>Nombre de femmes: <input type="number" id="femmes"></label><br>
-      <button type="button" id="submit-btn">Envoyer</button>
-    </form>
-  </div>
+  <h1>Ajouter une sortie</h1>
+  <form id="form">
+    <label>Date: <input type="date" id="date"></label><br>
+    <label>Type de sortie:
+      <select id="type">
+        <option>Mardi Nature</option>
+        <option>Mardi Piste</option>
+        <option>Jeudi Nature</option>
+        <option>Samedi Cool</option>
+        <option>Dimanche Nature</option>
+      </select>
+    </label><br>
+    <label>Encadrant 1: <input type="text" id="encadrant1"></label><br>
+    <label>Encadrant 2: <input type="text" id="encadrant2"></label><br>
+    <label>Encadrant 3: <input type="text" id="encadrant3"></label><br>
+    <label>Nombre d'hommes: <input type="number" id="hommes"></label><br>
+    <label>Nombre de femmes: <input type="number" id="femmes"></label><br>
+    <button type="button" id="submit-btn">Envoyer</button>
+  </form>
 
   <script src="script.js"></script>
 </body>
