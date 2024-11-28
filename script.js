@@ -19,38 +19,47 @@ submitButton.addEventListener("click", async () => {
   }
 
   try {
-    // Récupérer les données existantes
+    console.log("Données soumises :", data);
+
+    // Étape 1 : Récupérer les données existantes
     const response = await fetch(databaseUrl);
+    console.log("Statut de la réponse :", response.status);
+    if (!response.ok) {
+      throw new Error("Erreur HTTP : " + response.status);
+    }
     const existingData = await response.json();
+    console.log("Données existantes :", existingData);
 
-    // Ajouter les nouvelles données
+    // Étape 2 : Ajouter les nouvelles données
     existingData.push(data);
+    console.log("Nouvelles données :", existingData);
 
-    // Afficher les données (test local, pas d'écriture dans GitHub directement ici)
+    // Étape 3 : Afficher les données localement (en attendant la synchronisation avec GitHub)
     displayData(existingData);
 
-    alert("Données ajoutées localement. Synchronisation manuelle requise pour GitHub.");
+    alert("Données ajoutées localement. Synchronisation GitHub manuelle nécessaire.");
   } catch (error) {
-    console.error("Erreur :", error);
-    alert("Erreur lors de la mise à jour des données.");
+    console.error("Erreur lors de l'envoi :", error);
+    alert("Erreur lors de l'envoi des données. Vérifiez votre connexion.");
   }
 });
 
-// Affiche les données dans la liste
+// Fonction pour afficher les données dans la liste HTML
 function displayData(data) {
-  dataList.innerHTML = "";
+  dataList.innerHTML = ""; // Vide la liste
   data.forEach((item) => {
     const listItem = document.createElement("li");
-    listItem.textContent = `${item.date} - ${item.type} - Hommes: ${item.hommes}, Femmes: ${item.femmes}`;
+    listItem.textContent = `${item.date} - ${item.type} - Hommes : ${item.hommes}, Femmes : ${item.femmes}`;
     dataList.appendChild(listItem);
   });
 }
 
-// Charger et afficher les données à l'ouverture
+// Charger les données à l'ouverture
 (async function loadData() {
   try {
     const response = await fetch(databaseUrl);
     const data = await response.json();
+    console.log("Données chargées au démarrage :", data);
     displayData(data);
   } catch (error) {
     console.error("Erreur lors du chargement des données :", error);
