@@ -1,4 +1,8 @@
-document.getElementById("submit-btn").addEventListener("click", async () => {
+const databaseUrl = 'https://raw.githubusercontent.com/<USERNAME>/<REPO>/main/database.json';
+const submitButton = document.getElementById("submit-btn");
+const dataList = document.getElementById("data-list");
+
+submitButton.addEventListener("click", async () => {
   const data = {
     date: document.getElementById("date").value,
     type: document.getElementById("type").value,
@@ -10,35 +14,45 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
   };
 
   if (!data.date || !data.type || !data.hommes || !data.femmes) {
-    alert("Veuillez remplir tous les champs obligatoires !");
+    alert("Veuillez remplir les champs obligatoires !");
     return;
   }
 
   try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbz7SxeVcbD9JpqYx6_rHgRYVIpNtsv_G9AIz_VcPbySkF5ACcxWMcqfzNKtav18yEosmQ/exec",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    // Récupérer les données existantes
+    const response = await fetch(databaseUrl);
+    const existingData = await response.json();
 
-    if (!response.ok) {
-      console.error("Erreur HTTP :", response.status, response.statusText);
-      alert("Erreur lors de l'envoi : " + response.statusText);
-      return;
-    }
+    // Ajouter les nouvelles données
+    existingData.push(data);
 
-    const result = await response.json();
-    if (result.success) {
-      alert("Données envoyées avec succès !");
-      document.getElementById("form").reset();
-    } else {
-      alert("Erreur du serveur : " + result.error);
-    }
+    // Afficher les données (test local, pas d'écriture dans GitHub directement ici)
+    displayData(existingData);
+
+    alert("Données ajoutées localement. Synchronisation manuelle requise pour GitHub.");
   } catch (error) {
-    console.error("Erreur réseau :", error);
-    alert("Erreur lors de l'envoi des données. Vérifiez votre connexion.");
+    console.error("Erreur :", error);
+    alert("Erreur lors de la mise à jour des données.");
   }
 });
+
+// Affiche les données dans la liste
+function displayData(data) {
+  dataList.innerHTML = "";
+  data.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${item.date} - ${item.type} - Hommes: ${item.hommes}, Femmes: ${item.femmes}`;
+    dataList.appendChild(listItem);
+  });
+}
+
+// Charger et afficher les données à l'ouverture
+(async function loadData() {
+  try {
+    const response = await fetch(databaseUrl);
+    const data = await response.json();
+    displayData(data);
+  } catch (error) {
+    console.error("Erreur lors du chargement des données :", error);
+  }
+})();
