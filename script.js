@@ -1,4 +1,4 @@
-const databaseUrl = 'https://raw.githubusercontent.com/<USERNAME>/<REPO>/main/database.json';
+const databaseUrl = 'https://raw.githubusercontent.com/oxbb34/CAF-TS/main/database.json';
 const submitButton = document.getElementById("submit-btn");
 const dataList = document.getElementById("data-list");
 
